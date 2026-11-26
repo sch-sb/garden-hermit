@@ -174,17 +174,20 @@ function desenhar() {
   // galeria de imagens do canteiro escolhido
   const imagens = secaoAtual?.imagens || [];
   $("galeria").hidden = imagens.length === 0;
-  $("galeria").style.setProperty("--cor", corDe(secaoAtual));
-  $("galeria").innerHTML = imagens
-    .map((img, i) => {
-      const src = typeof img === "string" ? img : img.imagem;
-      const leg = typeof img === "string" ? "" : img.legenda || "";
-      return `<figure class="recorte" style="--inclina:${inclinacao(i + 7, 2.2).toFixed(2)}deg;--fita:${inclinacao(i + 3, 5).toFixed(1)}deg">
-        <a href="${esc(src)}" target="_blank" rel="noopener"><img src="${esc(src)}" alt="${esc(leg || `imagem do canteiro ${secaoAtual.nome}`)}" loading="lazy"></a>
-        ${leg ? `<figcaption>${esc(leg)}</figcaption>` : ""}
-      </figure>`;
-    })
-    .join("");
+  // moodboard: faixa corrida, uma imagem atrás da outra
+  const galeria = $("galeria");
+  const quadros = (eco) => imagens.map((img) => {
+    const src = typeof img === "string" ? img : img.imagem;
+    const leg = typeof img === "string" ? "" : img.legenda || "";
+    const alt = eco ? "" : leg || `imagem do canteiro ${secaoAtual.nome}`;
+    return `<figure class="quadro"><img src="${esc(src)}" alt="${esc(alt)}">${leg ? `<figcaption>${esc(leg)}</figcaption>` : ""}</figure>`;
+  }).join("");
+  const corre = imagens.length >= 3;
+  galeria.classList.toggle("corre", corre);
+  galeria.style.setProperty("--duracao", `${imagens.length * 8}s`);
+  galeria.innerHTML = imagens.length
+    ? `<div class="trilho"><div class="metade">${quadros(false)}</div>${corre ? `<div class="metade" aria-hidden="true">${quadros(true)}</div>` : ""}</div>`
+    : "";
 
   $("fichas").innerHTML = lista.map((f, i) => {
     const s = secoes.find((x) => x.slug === f.secao);
