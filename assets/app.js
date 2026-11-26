@@ -77,8 +77,10 @@ async function carregar(caminho) {
 function montarCapa() {
   document.title = `${site.titulo} — jardim digital`;
   $("titulo").textContent = site.titulo;
-  $("subtitulo").textContent = site.subtitulo;
-  $("intro").textContent = site.intro;
+  $("subtitulo").textContent = site.subtitulo || "";
+  $("subtitulo").hidden = !site.subtitulo;
+  $("intro").textContent = site.intro || "";
+  $("intro").hidden = !site.intro;
   $("rotulo-capa").textContent = site.desde ? `jardim digital · desde ${site.desde}` : "jardim digital";
 
   const conta = (m) => fichas.filter((f) => f.maturidade === m).length;

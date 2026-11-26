@@ -113,7 +113,7 @@ a { color: inherit; text-underline-offset: 3px; }
 .capa__intro { max-width: 36em; margin: 0 0 22px; }
 
 .contagem {
-  margin: 0;
+  margin: 28px 0 0;
   font-size: 13px;
   color: var(--tinta-suave);
 }
@@ -121,10 +121,7 @@ a { color: inherit; text-underline-offset: 3px; }
 
 .mandala { width: 100%; height: auto; }
 .mandala .eixo { stroke: var(--tinta); stroke-width: 0.8; opacity: 0.35; }
-.mandala .espiral path { fill: none; stroke: var(--tinta); stroke-width: 1.2; }
-.mandala .espiral { transform-origin: 160px 160px; animation: girar 60s linear infinite; }
 .mandala .lua { fill: var(--terracota); }
-@keyframes girar { to { transform: rotate(360deg); } }
 
 /* ---------- blocos ---------- */
 
