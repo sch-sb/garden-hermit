@@ -1,5 +1,9 @@
 # 🌿 garden hermit — o seu jardim digital
 
+**No ar em:** https://sch-sb.github.io/garden-hermit/
+**Código e conteúdo:** https://github.com/sch-sb/garden-hermit
+**Editar pelo navegador:** https://app.pagescms.org
+
 Este é o seu jardim como um site próprio. O visual é todo seu (dá para mudar qualquer coisa) e o conteúdo fica em arquivos simples que você edita por um formulário na web.
 
 ---
