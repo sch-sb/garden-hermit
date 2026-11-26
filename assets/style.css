@@ -260,38 +260,21 @@ main { max-width: var(--largura); margin: 0 auto; padding: 0 32px; }
   cursor: pointer;
 }
 
-/* ---------- moodboard (faixa corrida de imagens) ---------- */
+/* ---------- moodboard (mural vertical, tipo Pinterest) ---------- */
 
 .galeria {
-  --altura: 300px;      /* altura das imagens na faixa */
-  --vao: 18px;          /* espaço entre uma imagem e outra */
-  margin: 0 -32px 40px;
-  padding: 4px 0;
-  overflow: hidden;
+  --colunas: 3;         /* quantas colunas de imagens */
+  --vao: 14px;          /* espaço entre as imagens */
+  columns: var(--colunas);
+  column-gap: var(--vao);
+  margin: 0 0 48px;
 }
-.galeria.corre {
-  /* esmaece as bordas para a faixa "entrar" e "sair" suavemente */
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
-          mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+.quadro {
+  margin: 0 0 var(--vao);
+  break-inside: avoid;
 }
-.trilho { display: flex; width: max-content; }
-.galeria.corre .trilho { animation: correr var(--duracao, 60s) linear infinite; }
-.galeria.corre:hover .trilho { animation-play-state: paused; }
-@keyframes correr { to { transform: translateX(-50%); } }
-
-.metade {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--vao);
-  padding-right: var(--vao);
-}
-.galeria:not(.corre) .metade { padding-left: 32px; }
-
-.quadro { margin: 0; flex: none; }
-.quadro img { height: var(--altura); width: auto; display: block; }
+.quadro img { width: 100%; height: auto; display: block; }
 .quadro figcaption {
-  width: 0;
-  min-width: 100%;
   font-family: var(--f-mao);
   font-size: 18px;
   line-height: 1.2;
@@ -469,13 +452,13 @@ main { max-width: var(--largura); margin: 0 auto; padding: 0 32px; }
   .mandala { width: 150px; }
   .canteiro button { grid-template-columns: 22px 28px auto 1fr auto; gap: 8px; }
   .canteiro__nome { font-size: 26px; }
-  .galeria { --altura: 210px; --vao: 12px; margin-left: -18px; margin-right: -18px; }
-  .galeria:not(.corre) .metade { padding-left: 18px; }
+  .galeria { --colunas: 2; --vao: 10px; }
+}
+
+@media (min-width: 1400px) {
+  .galeria { --colunas: 4; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before { animation: none !important; transition: none !important; }
-  /* sem movimento: a faixa fica parada e dá para rolar com o dedo/mouse */
-  .galeria.corre { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
-  .galeria.corre .metade[aria-hidden="true"] { display: none; }
 }

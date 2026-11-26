@@ -174,20 +174,12 @@ function desenhar() {
   // galeria de imagens do canteiro escolhido
   const imagens = secaoAtual?.imagens || [];
   $("galeria").hidden = imagens.length === 0;
-  // moodboard: faixa corrida, uma imagem atrás da outra
-  const galeria = $("galeria");
-  const quadros = (eco) => imagens.map((img) => {
+  // moodboard: mural vertical (tipo Pinterest), imagens na proporção original
+  $("galeria").innerHTML = imagens.map((img) => {
     const src = typeof img === "string" ? img : img.imagem;
     const leg = typeof img === "string" ? "" : img.legenda || "";
-    const alt = eco ? "" : leg || `imagem do canteiro ${secaoAtual.nome}`;
-    return `<figure class="quadro"><img src="${esc(src)}" alt="${esc(alt)}">${leg ? `<figcaption>${esc(leg)}</figcaption>` : ""}</figure>`;
+    return `<figure class="quadro"><img src="${esc(src)}" alt="${esc(leg || `imagem do canteiro ${secaoAtual.nome}`)}" loading="lazy">${leg ? `<figcaption>${esc(leg)}</figcaption>` : ""}</figure>`;
   }).join("");
-  const corre = imagens.length >= 3;
-  galeria.classList.toggle("corre", corre);
-  galeria.style.setProperty("--duracao", `${imagens.length * 8}s`);
-  galeria.innerHTML = imagens.length
-    ? `<div class="trilho"><div class="metade">${quadros(false)}</div>${corre ? `<div class="metade" aria-hidden="true">${quadros(true)}</div>` : ""}</div>`
-    : "";
 
   $("fichas").innerHTML = lista.map((f, i) => {
     const s = secoes.find((x) => x.slug === f.secao);
