@@ -1,0 +1,12 @@
+{
+  "titulo": "garden hermit",
+  "subtitulo": "reclusa e decorativa",
+  "intro": "Um jardim digital: leituras e anotações que crescem devagar, sem pressa de ficar prontas. Aqui nada é post acabado — são sementes, brotos e, às vezes, árvores.",
+  "desde": "2020",
+  "sobre": "Um jardim digital é um caderno público que cresce aos poucos, no lugar de um blog com textos prontos. Cada ficha tem um estágio de maturidade e pode mudar com o tempo.",
+  "leituras": [
+    { "nome": "MIT Technology Review", "link": "https://www.technologyreview.com/2020/09/03/1007716/digital-gardens-let-you-cultivate-your-own-little-bit-of-the-internet/" },
+    { "nome": "Maggie Appleton", "link": "https://maggieappleton.com/garden-history" },
+    { "nome": "Ness Labs", "link": "https://nesslabs.com/mind-garden" }
+  ]
+}

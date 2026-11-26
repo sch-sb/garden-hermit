@@ -1,0 +1,125 @@
+# Configuração do Pages CMS (https://pagescms.org)
+# Define os formulários que aparecem quando você edita o jardim pela web.
+
+media:
+  input: media
+  output: media
+
+content:
+  - name: fichas
+    label: Fichas
+    type: file
+    path: content/fichas.json
+    fields:
+      - name: fichas
+        label: Fichas
+        type: object
+        list: true
+        fields:
+          - name: nome
+            label: Título
+            type: string
+            required: true
+          - name: secao
+            label: Canteiro
+            type: select
+            options:
+              values:
+                - { value: saude, label: "🫀 saúde" }
+                - { value: literatura, label: "📖 literatura" }
+                - { value: sociedade, label: "👁️ sociedade" }
+                - { value: natureza, label: "🌸 natureza" }
+                - { value: relacoes, label: "👄 relações" }
+                - { value: arte, label: "🖍️ arte" }
+                - { value: universo, label: "☄️ universo" }
+                - { value: misticismo, label: "🌑 misticismo" }
+          - name: fonte
+            label: Fonte (revista, site, autor)
+            type: string
+          - name: link
+            label: Link do original
+            type: string
+          - name: maturidade
+            label: Maturidade
+            type: select
+            default: semente
+            options:
+              values:
+                - { value: semente, label: "🌱 semente — guardei" }
+                - { value: broto, label: "🌿 broto — comecei a pensar" }
+                - { value: arvore, label: "🌳 árvore — virou ideia minha" }
+          - name: nota
+            label: Minha nota
+            type: text
+
+  - name: secoes
+    label: Canteiros (seções)
+    type: file
+    path: content/secoes.json
+    fields:
+      - name: secoes
+        label: Canteiros
+        type: object
+        list: true
+        fields:
+          - name: slug
+            label: Identificador (sem acento nem espaço, ex. natureza)
+            type: string
+            required: true
+          - name: nome
+            label: Nome
+            type: string
+          - name: emoji
+            label: Emoji
+            type: string
+          - name: descricao
+            label: Descrição curta
+            type: string
+          - name: cor
+            label: Cor
+            type: select
+            options:
+              values: [rosa, ocre, azul, salvia, terracota, areia, noite, violeta]
+          - name: imagens
+            label: Imagens (moodboard)
+            type: object
+            list: true
+            fields:
+              - name: imagem
+                label: Imagem
+                type: image
+              - name: legenda
+                label: Legenda
+                type: string
+
+  - name: site
+    label: Sobre o jardim
+    type: file
+    path: content/site.json
+    fields:
+      - name: titulo
+        label: Título
+        type: string
+      - name: subtitulo
+        label: Subtítulo
+        type: string
+      - name: intro
+        label: Introdução
+        type: text
+      - name: desde
+        label: Desde (ano)
+        type: string
+      - name: sobre
+        label: O que é um jardim digital
+        type: text
+      - name: leituras
+        label: Leituras sobre jardins digitais
+        type: object
+        list: true
+        fields:
+          - name: nome
+            label: Nome
+            type: string
+          - name: link
+            label: Link
+            type: string

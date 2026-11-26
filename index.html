@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>garden hermit — jardim digital</title>
+  <meta name="description" content="Um jardim digital: leituras e anotações que crescem devagar.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50 6a44 44 0 0 0 0 88Z' fill='%23d9a3a0'/><path d='M50 6a44 44 0 0 1 0 88Z' fill='%238fa7c4'/><circle cx='50' cy='50' r='10' fill='%232a2522'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="assets/app.js" defer></script>
+</head>
+<body>
+  <a class="pular" href="#acervo">pular para as fichas</a>
+
+  <header class="capa">
+    <div class="capa__texto">
+      <p class="rotulo" id="rotulo-capa">jardim digital</p>
+      <h1 class="capa__titulo" id="titulo">garden hermit</h1>
+      <p class="capa__subtitulo" id="subtitulo"></p>
+      <p class="capa__intro" id="intro"></p>
+      <p class="contagem" id="contagem"></p>
+    </div>
+
+    <!-- composição inspirada em Hilma af Klint -->
+    <svg class="mandala" viewBox="0 0 320 320" aria-hidden="true">
+      <line class="eixo" x1="10" y1="160" x2="310" y2="160"/>
+      <line class="eixo" x1="160" y1="10" x2="160" y2="310"/>
+      <path d="M160 30 A130 130 0 0 0 160 290 Z" fill="var(--rosa)"/>
+      <path d="M160 30 A130 130 0 0 1 160 290 Z" fill="var(--azul)"/>
+      <path d="M160 82 A78 78 0 0 0 160 238 Z" fill="var(--azul)"/>
+      <path d="M160 82 A78 78 0 0 1 160 238 Z" fill="var(--rosa)"/>
+      <path d="M160 124 A36 36 0 0 0 160 196 Z" fill="var(--ocre)"/>
+      <path d="M160 124 A36 36 0 0 1 160 196 Z" fill="var(--papel-claro)"/>
+      <g class="espiral">
+        <path d="M160 160 m0 -5 a5 5 0 1 1 -5 5 a10 10 0 1 1 10 10 a17 17 0 1 1 -17 -17 a26 26 0 1 1 26 26 a37 37 0 1 1 -37 -37 a50 50 0 1 1 50 50"/>
+      </g>
+      <path class="lua" d="M262 46 a22 22 0 1 0 22 30 a17 17 0 1 1 -22 -30Z"/>
+    </svg>
+  </header>
+
+  <main>
+    <section class="bloco" aria-labelledby="t-canteiros">
+      <div class="bloco__cabeca">
+        <h2 id="t-canteiros">índice</h2>
+        <p class="anotacao">escolha um canteiro ↓</p>
+      </div>
+      <ol class="canteiros" id="canteiros"></ol>
+    </section>
+
+    <section class="bloco" id="acervo" aria-labelledby="t-acervo">
+      <div class="bloco__cabeca">
+        <h2 id="t-acervo">acervo</h2>
+        <p class="resumo" id="resumo-filtro" aria-live="polite"></p>
+      </div>
+
+      <div class="ferramentas">
+        <label class="busca">
+          <span class="visualmente-oculto">buscar nas fichas</span>
+          <input type="search" id="busca" placeholder="buscar…" autocomplete="off">
+        </label>
+        <div class="chips" id="chips-maturidade" role="group" aria-label="filtrar por maturidade"></div>
+        <button class="limpar" id="limpar" type="button" hidden>limpar ×</button>
+      </div>
+
+      <div class="galeria" id="galeria" hidden></div>
+      <ol class="fichas" id="fichas"></ol>
+      <p class="vazio" id="vazio" hidden></p>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <div class="rodape__col">
+      <h2>como ler</h2>
+      <ul class="legenda" id="legenda"></ul>
+    </div>
+    <div class="rodape__col">
+      <h2>jardim digital?</h2>
+      <p id="sobre"></p>
+      <p class="leituras" id="leituras"></p>
+    </div>
+  </footer>
+
+  <dialog class="etiqueta" id="dialogo" aria-labelledby="d-titulo">
+    <form method="dialog"><button class="fechar" aria-label="fechar">×</button></form>
+    <p class="etiqueta__num" id="d-num"></p>
+    <h3 class="etiqueta__titulo" id="d-titulo"></h3>
+    <p class="etiqueta__fonte" id="d-fonte"></p>
+    <div class="etiqueta__nota" id="d-nota"></div>
+    <div class="etiqueta__pe">
+      <span class="maturidade" id="d-mat"></span>
+      <a class="ler" id="d-link" target="_blank" rel="noopener">ler o original ↗</a>
+    </div>
+  </dialog>
+</body>
+</html>
