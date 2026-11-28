@@ -8,8 +8,10 @@ Cada nota é um arquivo Markdown do Obsidian:
     fonte: "The New Yorker"
     link: "https://..."
     maturidade: semente        # semente | broto | arvore
-    numero: 12                 # opcional: ordem no acervo
     titulo: "..."              # opcional: se vazio, o título é o nome do arquivo
+
+No acervo, as fichas aparecem agrupadas por canteiro (na ordem de
+content/secoes.json) e em ordem alfabética dentro de cada canteiro.
     ---
     o que você pensou sobre isso… pode ter [[links para outras notas]].
 
@@ -87,7 +89,6 @@ def gerar():
         if caminho.name.startswith("_"):
             continue
         props, corpo = ler_nota(caminho)
-        numero = texto_de(props, "numero")
         notas.append({
             "arquivo": caminho.stem,
             "nome": texto_de(props, "titulo") or caminho.stem,
@@ -95,12 +96,19 @@ def gerar():
             "fonte": texto_de(props, "fonte"),
             "link": texto_de(props, "link"),
             "maturidade": normalizar_maturidade(texto_de(props, "maturidade")),
-            "numero": int(numero) if numero.isdigit() else None,
             "nota": corpo,
         })
 
-    # ordem: primeiro as que têm número, depois as novas em ordem alfabética
-    notas.sort(key=lambda n: (n["numero"] is None, n["numero"] or 0, n["nome"].lower()))
+    # ordem: por canteiro (como no índice) e alfabética dentro de cada um
+    try:
+        secoes = json.loads((RAIZ / "content" / "secoes.json").read_text(encoding="utf-8"))["secoes"]
+        ordem_canteiro = {s["slug"]: i for i, s in enumerate(secoes)}
+    except (OSError, ValueError, KeyError):
+        ordem_canteiro = {}
+    notas.sort(key=lambda n: (
+        ordem_canteiro.get(n["secao"], len(ordem_canteiro)),
+        sem_acento(n["nome"]).lower().lstrip("“\"'‘"),
+    ))
 
     # identificadores únicos e apelidos para resolver [[links]]
     usados, apelidos = set(), {}
@@ -127,7 +135,7 @@ def gerar():
             citada[ident].append(n["id"])
     for n in notas:
         n["citada"] = citada[n["id"]]
-        del n["arquivo"], n["numero"]
+        del n["arquivo"]
 
     SAIDA.parent.mkdir(exist_ok=True)
     SAIDA.write_text(

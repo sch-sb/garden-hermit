@@ -48,9 +48,6 @@ content:
             - { value: semente, label: "🌱 semente — guardei" }
             - { value: broto, label: "🌿 broto — comecei a pensar" }
             - { value: arvore, label: "🌳 árvore — virou ideia minha" }
-      - name: numero
-        label: Número (ordem no acervo; opcional)
-        type: number
       - name: body
         label: Minha nota
         type: rich-text

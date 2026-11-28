@@ -237,7 +237,7 @@ function desenhar() {
     return `
       <li class="ficha" style="--cor:${corDe(s)};--inclina:${inclinacao(idx).toFixed(2)}deg;--fita:${inclinacao(idx + 50, 4).toFixed(1)}deg;animation-delay:${Math.min(i, 20) * 18}ms">
         <button type="button" data-i="${idx}">
-          <span class="ficha__num"><span class="mao">nº ${idx + 1}</span><span>${esc(s?.nome || "")}</span></span>
+          <span class="ficha__num"><span>${esc(s?.nome || "")}</span></span>
           <span class="ficha__titulo">${esc(f.nome)}</span>
           <span class="ficha__fonte">${esc(f.fonte)}</span>
           ${f.nota ? (() => { const t = textoPuro(f.nota); return `<span class="ficha__nota">${esc(t.length > 140 ? t.slice(0, 140) + "…" : t)}</span>`; })() : ""}
@@ -263,7 +263,7 @@ function abrirFicha(i) {
   const m = MATURIDADES[f.maturidade] || MATURIDADES.semente;
   const d = $("dialogo");
   d.style.setProperty("--cor", corDe(s));
-  $("d-num").textContent = `nº ${i + 1} — ${s?.nome || ""}`;
+  $("d-num").textContent = s?.nome || "";
   $("d-titulo").textContent = f.nome;
   $("d-fonte").textContent = f.fonte;
   const nota = $("d-nota");

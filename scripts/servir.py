@@ -9,6 +9,7 @@ Para desligar: Ctrl + C.
 """
 import functools
 import http.server
+import importlib
 import sys
 from pathlib import Path
 
@@ -22,6 +23,7 @@ class Manipulador(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
         if self.path.split("?")[0].endswith("/content/fichas.json"):
             try:
+                importlib.reload(gerar)  # pega mudanças no próprio gerador também
                 gerar.gerar()
             except Exception as erro:  # mostra o erro sem derrubar o servidor
                 print("erro ao ler as notas:", erro)

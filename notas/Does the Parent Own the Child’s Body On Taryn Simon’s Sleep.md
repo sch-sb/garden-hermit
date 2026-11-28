@@ -4,5 +4,4 @@ canteiro: arte
 fonte: "The Paris Review"
 link: "https://www.theparisreview.org/blog/2022/04/06/does-the-parent-own-the-childs-body-on-taryn-simons-sleep/"
 maturidade: semente
-numero: 66
 ---

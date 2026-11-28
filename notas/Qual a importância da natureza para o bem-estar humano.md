@@ -4,5 +4,4 @@ canteiro: natureza
 fonte: "Nexo"
 link:
 maturidade: semente
-numero: 39
 ---
