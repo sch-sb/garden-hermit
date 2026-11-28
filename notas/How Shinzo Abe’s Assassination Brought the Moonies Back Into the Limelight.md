@@ -5,3 +5,4 @@ titulo: How Shinzo Abe’s Assassination Brought the Moonies Back Into the Limel
 maturidade: árvore
 canteiro: sociedade
 ---
+Fazer justiça com as próprias mãos nunca irá sair de moda.
