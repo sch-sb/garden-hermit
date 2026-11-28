@@ -22,6 +22,12 @@ Este é o caderno do **garden hermit**. Tudo o que está na pasta `notas` vira f
 - **Ligar fichas:** digite `[[` e comece a escrever o nome de outra nota. No site, vira um link e aparece em "conversa com" / "citada em".
 - **Imagens:** cole (`Ctrl + V`) direto na nota. Elas vão para a pasta `media`.
 
+## Imagens do mural de um canteiro
+
+- Arraste a imagem para a pasta do canteiro dentro de `mural` (ex.: `mural/arte`).
+- O **nome do arquivo vira a legenda** — `Hilma af Klint, The Swan.jpg`. Nomes automáticos (`Pasted image…`, `IMG_…`) ficam sem legenda.
+- Para escolher a ordem, comece o nome com `01 `, `02 `… (o número não aparece).
+
 ## Publicar
 
 O plugin **Obsidian Git** envia suas mudanças para o GitHub sozinho (a cada alguns minutos). Para enviar na hora: `Ctrl + P` → **Obsidian Git: Commit and push**. Em 1–2 minutos o site atualiza.

@@ -44,7 +44,7 @@ function inclinacao(i, max = 1.4) {
 }
 
 const estado = { secao: null, maturidade: null, busca: "", vista: "tudo" };
-let site, secoes, fichas, apelidos = {}, indicePorId = {};
+let site, secoes, fichas, apelidos = {}, indicePorId = {}, murais = {};
 
 const $ = (id) => document.getElementById(id);
 
@@ -226,7 +226,10 @@ function desenhar() {
     : `${lista.length} de ${fichas.length} fichas`;
 
   // galeria de imagens do canteiro escolhido
-  const imagens = secaoAtual?.imagens || [];
+  // imagens da pasta mural/<canteiro>/ + as que vierem do Pages CMS
+  const imagens = secaoAtual
+    ? [...(murais[secaoAtual.slug] || []), ...(secaoAtual.imagens || [])]
+    : [];
   $("galeria").hidden = imagens.length === 0;
   // escolha "tudo · fichas · mural" — só em canteiros com imagens e com fichas
   const temFichas = secaoAtual && fichas.some((f) => f.secao === secaoAtual.slug);
@@ -343,6 +346,7 @@ async function iniciar() {
     ]);
     fichas = indice.fichas;
     apelidos = indice.apelidos || {};
+    murais = indice.murais || {};
     fichas.forEach((f, i) => { if (f.id) indicePorId[f.id] = i; });
   } catch (erro) {
     document.querySelector("main").innerHTML =

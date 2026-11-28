@@ -12,6 +12,10 @@ Cada nota é um arquivo Markdown do Obsidian:
 
 No acervo, as fichas aparecem agrupadas por canteiro (na ordem de
 content/secoes.json) e em ordem alfabética dentro de cada canteiro.
+
+Imagens do mural: mural/<canteiro>/*.jpg|png|...  — a pasta é o canteiro,
+o nome do arquivo é a legenda ("01 Odilon Redon.png" → "Odilon Redon";
+nomes automáticos como "Pasted image…" ou só números ficam sem legenda).
     ---
     o que você pensou sobre isso… pode ter [[links para outras notas]].
 
@@ -23,9 +27,17 @@ import re
 import sys
 import unicodedata
 from pathlib import Path
+from urllib.parse import quote
 
 RAIZ = Path(__file__).resolve().parent.parent
 PASTA_NOTAS = RAIZ / "notas"
+PASTA_MURAL = RAIZ / "mural"
+EXT_IMAGEM = {".jpg", ".jpeg", ".png", ".gif", ".webp", ".avif", ".svg"}
+NOME_AUTOMATICO = re.compile(
+    r"^(pasted image|image|img|dsc|screenshot|screen shot|captura de tela|untitled|"
+    r"photo|whatsapp image|sem t[ií]tulo)(?=[\s_\-.\d(]|$)|^[\d\s_\-().]*$",
+    re.IGNORECASE,
+)
 SAIDA = RAIZ / "content" / "fichas.json"
 
 WIKILINK = re.compile(r"(?<!!)\[\[([^\]|#]+)(?:#[^\]|]*)?(?:\|[^\]]*)?\]\]")
@@ -81,6 +93,39 @@ def texto_de(props, chave):
 def normalizar_maturidade(valor):
     v = re.sub(r"[^a-z]", "", sem_acento(valor).lower())
     return v if v in ("semente", "broto", "arvore") else "semente"
+
+
+def chave_natural(nome):
+    """ordena '2' antes de '10'"""
+    return [int(p) if p.isdigit() else p.lower() for p in re.split(r"(\d+)", nome)]
+
+
+def legenda_do_arquivo(stem):
+    texto = re.sub(r"^\d+[\s._\-]*", "", stem).strip()  # tira "01 ", "02-", ...
+    if not texto or NOME_AUTOMATICO.match(texto):
+        return ""
+    return texto
+
+
+def ler_murais():
+    murais = {}
+    if not PASTA_MURAL.is_dir():
+        return murais
+    for pasta in sorted(PASTA_MURAL.iterdir()):
+        if not pasta.is_dir():
+            continue
+        imagens = [a for a in pasta.iterdir()
+                   if a.is_file() and a.suffix.lower() in EXT_IMAGEM and not a.name.startswith(("_", "."))]
+        imagens.sort(key=lambda a: chave_natural(a.name))
+        if imagens:
+            murais[slug(pasta.name)] = [
+                {
+                    "imagem": quote(a.relative_to(RAIZ).as_posix()),
+                    "legenda": legenda_do_arquivo(a.stem),
+                }
+                for a in imagens
+            ]
+    return murais
 
 
 def gerar():
@@ -139,7 +184,8 @@ def gerar():
 
     SAIDA.parent.mkdir(exist_ok=True)
     SAIDA.write_text(
-        json.dumps({"fichas": notas, "apelidos": apelidos}, ensure_ascii=False, indent=1),
+        json.dumps({"fichas": notas, "apelidos": apelidos, "murais": ler_murais()},
+                   ensure_ascii=False, indent=1),
         encoding="utf-8",
     )
     return len(notas)

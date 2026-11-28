@@ -12,7 +12,8 @@ Você escreve no **Obsidian**; o site lê as suas notas e se publica sozinho.
 | Arquivo / pasta | Para que serve | Você mexe? |
 |---|---|---|
 | `notas/` | **as fichas** — uma nota do Obsidian por ficha | **sim, é aqui que você escreve** |
-| `media/` | imagens (as coladas no Obsidian vêm para cá) | sim |
+| `mural/<canteiro>/` | **imagens do mural** de cada canteiro (a pasta é o canteiro) | **sim** |
+| `media/` | imagens coladas dentro das notas no Obsidian | sim |
 | `modelos/ficha.md` | modelo para criar fichas novas | se quiser |
 | `comece aqui.md` | guia rápido dentro do Obsidian | — |
 | `content/secoes.json` | os canteiros (nome, cor, descrição, imagens do mural) | às vezes |
@@ -54,6 +55,15 @@ O que eu pensei lendo isso. Conversa com [[Fungi, Folklore, and Fairyland]].
 - **Nova ficha:** `Ctrl + N`, dê o nome, depois `Ctrl + P` → **Inserir modelo** → *ficha*.
 - Só a pasta `notas/` vai para o site. Notas que começam com `_` são ignoradas pelo site — mas o repositório é público, então não guarde nada secreto ali.
 
+**Imagens do mural**
+
+- Arraste a imagem para a pasta do canteiro: `mural/arte/`, `mural/natureza/`… (no Obsidian ou no Explorador de Arquivos).
+- **O nome do arquivo é a legenda:** `Hilma af Klint, The Swan.jpg` → "Hilma af Klint, The Swan".
+- Nomes automáticos (`Pasted image…`, `IMG_…`, `WhatsApp Image…`, `Screenshot…`, só números) ficam sem legenda.
+- **Ordem:** alfabética pelo nome. Para escolher a ordem, comece com número — `01 …`, `02 …` — o número não aparece na legenda.
+- Para tirar do mural: apague ou mova a imagem para fora da pasta. Arquivos que começam com `_` são ignorados.
+- Canteiro novo? Crie a pasta com o mesmo identificador do canteiro (o `slug` em `content/secoes.json`, ex.: `rede`).
+
 ---
 
 ## 3. Publicar automaticamente (plugin Obsidian Git)
@@ -87,7 +97,7 @@ Abra **http://localhost:8000**. Escreva no Obsidian, salve, recarregue o navegad
 
 https://app.pagescms.org → entre com o GitHub → **garden-hermit**.
 - **Fichas (notas)** edita as mesmas notas do Obsidian (por formulário).
-- **Canteiros** e **Sobre o jardim** editam os canteiros, as imagens do mural e os textos da capa.
+- **Canteiros** e **Sobre o jardim** editam nome, descrição e cor dos canteiros e os textos da capa. (Imagens enviadas por lá também entram no mural, depois das da pasta `mural/`.)
 
 Se editar pela web, o Obsidian Git busca as mudanças ao abrir (ou `Ctrl + P` → **Git: Pull**).
 
