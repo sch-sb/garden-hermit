@@ -29,6 +29,11 @@ jobs:
           python-version: "3.12"
       - name: juntar as notas
         run: python scripts/gerar.py
+      - name: carimbar a versão no código e no estilo (evita misturar versões no cache)
+        run: |
+          v="${GITHUB_SHA::7}"
+          sed -i "s#assets/app\.js\"#assets/app.js?v=$v\"#; s#assets/style\.css\"#assets/style.css?v=$v\"#" index.html
+          grep -n "?v=$v" index.html
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

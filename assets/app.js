@@ -370,4 +370,13 @@ async function iniciar() {
   lerEndereco();
 }
 
-iniciar();
+iniciar().catch((erro) => {
+  // rede de segurança: em vez de uma página vazia, pede para recarregar
+  console.error(erro);
+  const main = document.querySelector("main");
+  if (main) {
+    main.insertAdjacentHTML("afterbegin",
+      `<p class="vazio">o jardim não abriu direito — recarregue a página
+       (<b>Ctrl + Shift + R</b>, ou puxe para baixo no celular).</p>`);
+  }
+});
