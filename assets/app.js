@@ -27,14 +27,14 @@ const GLIFOS = [
   '<svg viewBox="0 0 24 24"><path d="M15 3a9 9 0 1 0 6 13a7 7 0 1 1-6-13Z" fill="currentColor"/></svg>',
   '<svg viewBox="0 0 24 24"><path d="M2 12q10-10 20 0q-10 10-20 0Z" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3.5" fill="currentColor"/></svg>',
   '<svg viewBox="0 0 24 24"><path d="M12 21C5 15 5 7 12 3c7 4 7 12 0 18Z" fill="currentColor"/><path d="M12 21V8" stroke="var(--papel)" stroke-width="1.2"/></svg>',
-  '<svg viewBox="0 0 24 24"><rect x="2.5" y="3.5" width="19" height="13" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 21h8M12 16.5V21" stroke="currentColor" stroke-width="1.5"/><path d="M12 13.2 8.6 9.9a1.9 1.9 0 0 1 3.4-1.6 1.9 1.9 0 0 1 3.4 1.6Z" fill="currentColor"/></svg>',
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 2v20M2 12h20M4.9 4.9l14.2 14.2M19.1 4.9 4.9 19.1"/><path d="M12 5.5 16.6 7.4 18.5 12 16.6 16.6 12 18.5 7.4 16.6 5.5 12 7.4 7.4Z"/><path d="M12 9 14.1 9.9 15 12 14.1 14.1 12 15 9.9 14.1 9 12 9.9 9.9Z"/></svg>',
 ];
 
 /* qual símbolo cada canteiro usa (canteiros novos ganham um automaticamente) */
 const GLIFO_DE = {
   saude: 0, literatura: 1, relacoes: 3, sociedade: 4,
   universo: 2, misticismo: 5, arte: 6, natureza: 7,
-  "eu-meu-computador": 8,
+  rede: 8,
 };
 
 /* pequena inclinação "feita à mão", sempre igual para a mesma ficha */

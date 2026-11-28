@@ -33,7 +33,7 @@ content:
             - { value: arte, label: "arte" }
             - { value: universo, label: "universo" }
             - { value: misticismo, label: "misticismo" }
-            - { value: eu-meu-computador, label: "eu ❤️ meu computador" }
+            - { value: rede, label: "rede" }
       - name: fonte
         label: Fonte (revista, site, autor)
         type: string

@@ -1,5 +1,5 @@
 ---
-canteiro: "eu ❤️ meu computador"
+canteiro: rede
 fonte: "The New Yorker"
 link: "https://www.newyorker.com/magazine/2022/12/19/the-world-changing-race-to-develop-the-quantum-computer"
 maturidade: semente
