@@ -35,6 +35,7 @@
       { "imagem": "media/misticismo-09.jpg", "legenda": "" },
       { "imagem": "media/misticismo-10.jpg", "legenda": "" },
       { "imagem": "media/misticismo-11.jpg", "legenda": "" }
-    ] }
+    ] },
+    { "slug": "eu-meu-computador", "nome": "eu ❤️ meu computador", "emoji": "💾", "cor": "tela", "descricao": "fóruns, wikis, máquinas e quem vive dentro delas", "imagens": [] }
   ]
 }

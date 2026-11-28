@@ -33,6 +33,7 @@ content:
             - { value: arte, label: "arte" }
             - { value: universo, label: "universo" }
             - { value: misticismo, label: "misticismo" }
+            - { value: eu-meu-computador, label: "eu ❤️ meu computador" }
       - name: fonte
         label: Fonte (revista, site, autor)
         type: string
@@ -79,7 +80,7 @@ content:
             label: Cor
             type: select
             options:
-              values: [rosa, ocre, azul, salvia, terracota, areia, noite, violeta]
+              values: [rosa, ocre, azul, salvia, terracota, areia, noite, violeta, tela]
           - name: imagens
             label: Imagens (moodboard)
             type: object

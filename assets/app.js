@@ -14,6 +14,7 @@ const MATURIDADES = {
 const CORES = {
   rosa: "--rosa", azul: "--azul", ocre: "--ocre", salvia: "--salvia",
   terracota: "--terracota", areia: "--areia", violeta: "--violeta", noite: "--noite",
+  tela: "--tela",
 };
 
 /* símbolos dos canteiros — formas de Hilma af Klint, o olho de Redon, a pétala de O'Keeffe */
@@ -26,12 +27,14 @@ const GLIFOS = [
   '<svg viewBox="0 0 24 24"><path d="M15 3a9 9 0 1 0 6 13a7 7 0 1 1-6-13Z" fill="currentColor"/></svg>',
   '<svg viewBox="0 0 24 24"><path d="M2 12q10-10 20 0q-10 10-20 0Z" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3.5" fill="currentColor"/></svg>',
   '<svg viewBox="0 0 24 24"><path d="M12 21C5 15 5 7 12 3c7 4 7 12 0 18Z" fill="currentColor"/><path d="M12 21V8" stroke="var(--papel)" stroke-width="1.2"/></svg>',
+  '<svg viewBox="0 0 24 24"><rect x="2.5" y="3.5" width="19" height="13" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 21h8M12 16.5V21" stroke="currentColor" stroke-width="1.5"/><path d="M12 13.2 8.6 9.9a1.9 1.9 0 0 1 3.4-1.6 1.9 1.9 0 0 1 3.4 1.6Z" fill="currentColor"/></svg>',
 ];
 
 /* qual símbolo cada canteiro usa (canteiros novos ganham um automaticamente) */
 const GLIFO_DE = {
   saude: 0, literatura: 1, relacoes: 3, sociedade: 4,
   universo: 2, misticismo: 5, arte: 6, natureza: 7,
+  "eu-meu-computador": 8,
 };
 
 /* pequena inclinação "feita à mão", sempre igual para a mesma ficha */
