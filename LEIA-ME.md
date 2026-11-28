@@ -2,9 +2,8 @@
 
 **No ar em:** https://sch-sb.github.io/garden-hermit/
 **Código e conteúdo:** https://github.com/sch-sb/garden-hermit
-**Editar pelo navegador:** https://app.pagescms.org
 
-Este é o seu jardim como um site próprio. O visual é todo seu (dá para mudar qualquer coisa) e o conteúdo fica em arquivos simples que você edita por um formulário na web.
+Você escreve no **Obsidian**; o site lê as suas notas e se publica sozinho.
 
 ---
 
@@ -12,74 +11,89 @@ Este é o seu jardim como um site próprio. O visual é todo seu (dá para mudar
 
 | Arquivo / pasta | Para que serve | Você mexe? |
 |---|---|---|
-| `content/fichas.json` | as fichas (título, canteiro, fonte, link, maturidade, nota) | **sim** — é o seu conteúdo |
-| `content/secoes.json` | os canteiros (nome, emoji, descrição, cor, imagens) | **sim** |
-| `content/site.json` | título, subtítulo, introdução, "sobre" | **sim** |
-| `media/` | imagens que você enviar | **sim** (pelo Pages CMS) |
-| `index.html` | a estrutura da página | raramente |
+| `notas/` | **as fichas** — uma nota do Obsidian por ficha | **sim, é aqui que você escreve** |
+| `media/` | imagens (as coladas no Obsidian vêm para cá) | sim |
+| `modelos/ficha.md` | modelo para criar fichas novas | se quiser |
+| `comece aqui.md` | guia rápido dentro do Obsidian | — |
+| `content/secoes.json` | os canteiros (nome, cor, descrição, imagens do mural) | às vezes |
+| `content/site.json` | título e textos da capa e do rodapé | às vezes |
 | `assets/style.css` | **o visual**: cores, fontes, tamanhos | quando quiser mudar o design |
-| `assets/app.js` | o comportamento (filtros, busca, etiquetas) | não precisa |
-| `.pages.yml` | os formulários do Pages CMS | não precisa |
+| `index.html`, `assets/app.js` | estrutura e comportamento do site | não precisa |
+| `scripts/` | juntam as notas num índice / servidor local | não precisa |
+| `.github/workflows/jardim.yml` | o robô que publica o site a cada envio | não precisa |
+
+> `content/fichas.json` não existe no GitHub de propósito: é gerado a partir das notas, no seu computador e pelo robô.
 
 ---
 
-## 2. Ver o site no seu computador
+## 2. Escrever no Obsidian
 
-O site lê os arquivos `content/*.json`, e o navegador só deixa fazer isso através de um "servidor". Com o Python instalado:
+**Primeira vez**
+1. Instale o Obsidian (grátis): https://obsidian.md
+2. Escolha **Abrir pasta como cofre** e selecione `F:\digi-garden`.
+3. Abra a nota **comece aqui**.
 
-1. Abra o **PowerShell** nesta pasta (no Explorador de Arquivos: clique na barra de endereço, digite `powershell` e Enter).
-2. Rode:
-   ```powershell
-   python -m http.server 8000
-   ```
-3. Abra no navegador: **http://localhost:8000**
-4. Para desligar: volte ao PowerShell e aperte `Ctrl + C`.
+**Uma ficha é assim**
 
-> Abrir o `index.html` com dois cliques **não funciona** — aparece "o jardim não abriu". É por isso que precisa do passo 2.
+```markdown
+---
+canteiro: natureza
+fonte: "The New Yorker"
+link: "https://..."
+maturidade: broto
+---
+
+O que eu pensei lendo isso. Conversa com [[Fungi, Folklore, and Fairyland]].
+```
+
+- **O título** é o nome do arquivo. (Algumas notas antigas têm a propriedade `titulo`; se tiver, é ela que aparece no site.)
+- **canteiro**: saúde · literatura · sociedade · natureza · relações · arte · universo · misticismo
+- **maturidade**: semente · broto · arvore
+- **`[[nome de outra nota]]`** vira link no site e aparece em "conversa com" / "citada em".
+- Formatação que o site entende: parágrafos, `**negrito**`, `*itálico*`, `==marca-texto==`, `> citação`, `- listas`, `[texto](link)` e imagens coladas.
+- **Nova ficha:** `Ctrl + N`, dê o nome, depois `Ctrl + P` → **Inserir modelo** → *ficha*.
+- Só a pasta `notas/` vai para o site. Notas que começam com `_` são ignoradas pelo site — mas o repositório é público, então não guarde nada secreto ali.
 
 ---
 
-## 3. Publicar na internet (grátis, GitHub Pages)
+## 3. Publicar automaticamente (plugin Obsidian Git)
 
-Só precisa fazer uma vez.
+Faça uma vez:
+1. No Obsidian: **Configurações → Plugins da comunidade → Ativar plugins da comunidade**.
+2. **Procurar** → digite **Git** (o de *Vinzent*) → **Instalar** → **Ativar**.
+3. Nas opções do plugin **Git**:
+   - **Auto commit-and-sync interval**: `10` (envia sozinho a cada 10 minutos)
+   - **Pull on startup**: ligado (busca o que mudou na web ao abrir)
 
-1. **Crie uma conta** em https://github.com (gratuita).
-2. Clique em **New repository** (botão verde "New").
-   - Nome: `garden-hermit` (ou o que quiser)
-   - Marque **Public**
-   - Clique em **Create repository**.
-3. Na página do repositório novo, clique em **uploading an existing file**.
-4. **Arraste todo o conteúdo desta pasta** (menos a pasta `.claude`) para a janela. Clique em **Commit changes**.
-5. Vá em **Settings → Pages** (menu da esquerda).
-   - Em **Source**, escolha **Deploy from a branch**.
-   - Branch: **main**, pasta **/ (root)**. Clique **Save**.
-6. Espere 1–2 minutos e recarregue. Aparece o endereço do site, algo como
-   `https://SEU-USUARIO.github.io/garden-hermit/`
+Para enviar na hora: `Ctrl + P` → **Git: Commit-and-sync**.
 
-> Quer um endereço próprio, tipo `gardenhermit.com`? Dá para comprar um domínio (~R$ 40/ano em sites como registro.br) e ligar em Settings → Pages → Custom domain.
+Depois de cada envio, o robô do GitHub junta as notas e publica — leva 1–2 minutos. Dá para acompanhar em https://github.com/sch-sb/garden-hermit/actions
 
 ---
 
-## 4. Editar pelo navegador (Pages CMS)
+## 4. Ver o site no seu computador
 
-O Pages CMS é a sua "interface editável": formulários bonitinhos em vez de arquivos.
+Com o PowerShell aberto nesta pasta:
 
-1. Entre em https://app.pagescms.org
-2. Clique em **Sign in with GitHub** e autorize.
-3. Escolha o repositório `garden-hermit`.
-4. No menu da esquerda aparecem **Fichas**, **Canteiros** e **Sobre o jardim**.
-5. Edite o que quiser — por exemplo, abra uma ficha, escreva em **Minha nota** e troque a **Maturidade** para 🌿 broto.
-6. Clique em **Save**. Em 1–2 minutos o site publicado atualiza sozinho.
+```powershell
+python scripts/servir.py
+```
 
-**Para adicionar uma ficha:** em *Fichas*, clique em **Add an item** no fim da lista.
-
-**Para colocar imagens num canteiro (moodboard):** em *Canteiros*, abra o canteiro, vá em **Imagens** → **Add an item** → envie a imagem e escreva uma legenda. Elas aparecem numa faixa quando alguém abre aquele canteiro.
-
-> Se algum formulário der erro na primeira vez, me chame: às vezes o `.pages.yml` precisa de um ajuste pequeno quando conecta com o repositório de verdade.
+Abra **http://localhost:8000**. Escreva no Obsidian, salve, recarregue o navegador — a mudança já aparece. Para desligar: `Ctrl + C`.
 
 ---
 
-## 5. Mudar o design
+## 5. Editar pelo celular (plano B: Pages CMS)
+
+https://app.pagescms.org → entre com o GitHub → **garden-hermit**.
+- **Fichas (notas)** edita as mesmas notas do Obsidian (por formulário).
+- **Canteiros** e **Sobre o jardim** editam os canteiros, as imagens do mural e os textos da capa.
+
+Se editar pela web, o Obsidian Git busca as mudanças ao abrir (ou `Ctrl + P` → **Git: Pull**).
+
+---
+
+## 6. Mudar o design
 
 Tudo começa no topo de `assets/style.css`:
 
@@ -90,18 +104,17 @@ Tudo começa no topo de `assets/style.css`:
 --azul: #93abc8;       /* Hilma af Klint */
 --terracota: #bf6648;  /* O'Keeffe */
 --violeta: #8d76a5;    /* Redon */
+--f-marca: "IM Fell English"     /* o "garden hermit" da capa */
 --f-titulo: "Instrument Serif"   /* títulos */
 --f-texto: "Courier Prime"       /* texto de máquina de escrever */
 --f-mao: "Caveat"                /* anotações à mão */
 ```
 
-Troque um valor, salve e recarregue a página. Para mudanças maiores (outro layout, animações, modo escuro), é só me pedir.
+O mural de imagens: `--colunas` e `--vao` na parte "moodboard" do mesmo arquivo.
 
 ---
 
-## 6. O que ficou de fora (de propósito)
+## 7. O que ficou de fora (de propósito)
 
-- **Oferenda** — continua privada no Notion, só para os amigos.
-- **Arquivo com os textos completos** — continua privado no Notion.
-- **Imagens das moodboards e timelines** — já estão em `media/` (23 imagens) e aparecem quando você abre literatura, natureza, relações, arte e misticismo. As legendas ficaram quase todas vazias: preencha pelo Pages CMS em *Canteiros → Imagens*.
-- **7 fichas sem link**: Gal Costa, Hilma af Klint e o artigo da Nexo sobre natureza estão no site sem link; as 4 da piauí sem link foram para a Oferenda.
+- **Oferenda** e o **arquivo com os textos completos** continuam privados no Notion.
+- 3 fichas sem link do original: Gal Costa, Hilma af Klint e o artigo da Nexo sobre natureza.
