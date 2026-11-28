@@ -1,5 +1,6 @@
 .claude/
 .obsidian/
 .trash/
+__pycache__/
 # gerado a partir das notas (no computador por scripts/gerar.py, no GitHub pelo robô)
 content/fichas.json
