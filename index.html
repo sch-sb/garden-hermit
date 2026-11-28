@@ -21,7 +21,6 @@
       <h1 class="capa__titulo" id="titulo">garden hermit</h1>
       <p class="capa__subtitulo" id="subtitulo"></p>
       <p class="capa__intro" id="intro"></p>
-      <p class="contagem" id="contagem"></p>
     </div>
 
     <!-- composição inspirada em Hilma af Klint -->
@@ -53,7 +52,13 @@
         <p class="resumo" id="resumo-filtro" aria-live="polite"></p>
       </div>
 
-      <div class="ferramentas">
+      <div class="vistas" id="vistas" role="group" aria-label="o que ver neste canteiro" hidden>
+        <button type="button" data-vista="tudo">tudo</button>
+        <button type="button" data-vista="fichas">fichas</button>
+        <button type="button" data-vista="mural">mural</button>
+      </div>
+
+      <div class="ferramentas" id="ferramentas">
         <label class="busca">
           <span class="visualmente-oculto">buscar nas fichas</span>
           <input type="search" id="busca" placeholder="buscar…" autocomplete="off">

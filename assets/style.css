@@ -114,12 +114,6 @@ a { color: inherit; text-underline-offset: 3px; }
 
 .capa__intro { max-width: 36em; margin: 0 0 22px; }
 
-.contagem {
-  margin: 28px 0 0;
-  font-size: 13px;
-  color: var(--tinta-suave);
-}
-.contagem b { color: var(--tinta); font-weight: 700; }
 
 .mandala { width: 100%; height: auto; }
 .mandala .eixo { stroke: var(--tinta); stroke-width: 0.8; opacity: 0.35; }
@@ -206,6 +200,28 @@ main { max-width: var(--largura); margin: 0 auto; padding: 0 32px; }
 .canteiro button[aria-pressed="true"] .canteiro__nome {
   background: linear-gradient(transparent 58%, var(--cor) 58%, var(--cor) 90%, transparent 90%);
   font-style: italic;
+}
+
+/* ---------- tudo · fichas · mural ---------- */
+
+.vistas {
+  display: flex;
+  gap: 4px 18px;
+  margin: -6px 0 10px;
+  font-size: 14px;
+}
+.vistas button {
+  font: inherit;
+  background: none;
+  border: 0;
+  padding: 2px 3px;
+  color: var(--tinta-suave);
+  cursor: pointer;
+}
+.vistas button:hover { color: var(--tinta); }
+.vistas button[aria-pressed="true"] {
+  color: var(--tinta);
+  background: linear-gradient(transparent 55%, var(--cor, var(--ocre)) 55%, var(--cor, var(--ocre)) 90%, transparent 90%);
 }
 
 /* ---------- ferramentas ---------- */

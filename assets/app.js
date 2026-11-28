@@ -43,7 +43,7 @@ function inclinacao(i, max = 1.4) {
   return ((x - Math.floor(x)) * 2 - 1) * max;
 }
 
-const estado = { secao: null, maturidade: null, busca: "" };
+const estado = { secao: null, maturidade: null, busca: "", vista: "tudo" };
 let site, secoes, fichas, apelidos = {}, indicePorId = {};
 
 const $ = (id) => document.getElementById(id);
@@ -134,11 +134,6 @@ function montarCapa() {
   $("intro").textContent = site.intro || "";
   $("intro").hidden = !site.intro;
   $("rotulo-capa").textContent = site.desde ? `jardim digital · desde ${site.desde}` : "jardim digital";
-
-  const conta = (m) => fichas.filter((f) => f.maturidade === m).length;
-  $("contagem").innerHTML =
-    `<b>${fichas.length}</b> fichas em <b>${secoes.length}</b> canteiros — ` +
-    `🌱 ${conta("semente")} · 🌿 ${conta("broto")} · 🌳 ${conta("arvore")}`;
 }
 
 /* ---------- canteiros ---------- */
@@ -189,6 +184,13 @@ function montarChips() {
     desenhar();
   });
 
+  $("vistas").addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-vista]");
+    if (!b || !estado.secao) return;
+    const v = b.dataset.vista;
+    irPara(`canteiro/${estado.secao}${v === "tudo" ? "" : `/${v}`}`);
+  });
+
   $("limpar").addEventListener("click", () => {
     estado.maturidade = null;
     estado.busca = "";
@@ -226,6 +228,17 @@ function desenhar() {
   // galeria de imagens do canteiro escolhido
   const imagens = secaoAtual?.imagens || [];
   $("galeria").hidden = imagens.length === 0;
+  // escolha "tudo · fichas · mural" — só em canteiros com imagens e com fichas
+  const temFichas = secaoAtual && fichas.some((f) => f.secao === secaoAtual.slug);
+  const podeEscolher = Boolean(imagens.length && temFichas);
+  const vista = podeEscolher ? estado.vista : "tudo";
+  $("vistas").hidden = !podeEscolher;
+  $("vistas").style.setProperty("--cor", corDe(secaoAtual));
+  document.querySelectorAll("#vistas button").forEach((b) =>
+    b.setAttribute("aria-pressed", String(b.dataset.vista === vista)));
+  $("ferramentas").hidden = vista === "mural";
+  if (vista === "fichas") $("galeria").hidden = true;
+
   // moodboard: mural vertical (tipo Pinterest), imagens na proporção original
   $("galeria").innerHTML = imagens.map((img) => {
     const src = typeof img === "string" ? img : img.imagem;
@@ -250,8 +263,9 @@ function desenhar() {
       </li>`;
   }).join("");
 
+  $("fichas").hidden = vista === "mural";
   const vazio = $("vazio");
-  vazio.hidden = lista.length > 0;
+  vazio.hidden = lista.length > 0 || vista === "mural";
   const canteiroSemFichas = secaoAtual && !fichas.some((f) => f.secao === secaoAtual.slug);
   vazio.textContent = canteiroSemFichas
     ? (imagens.length ? "ainda sem fichas — por enquanto, só imagens." : "este canteiro está em pousio — ainda nada plantado aqui.")
@@ -311,8 +325,9 @@ function irPara(hash) {
 }
 
 function lerEndereco() {
-  const [tipo, valor] = location.hash.slice(1).split("/");
+  const [tipo, valor, modo] = location.hash.slice(1).split("/");
   estado.secao = tipo === "canteiro" && secoes.some((s) => s.slug === valor) ? valor : null;
+  estado.vista = ["mural", "fichas"].includes(modo) ? modo : "tudo";
   desenhar();
 }
 
