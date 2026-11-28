@@ -6,51 +6,54 @@ media:
   output: media
 
 content:
-  - name: fichas
-    label: Fichas
-    type: file
-    path: content/fichas.json
+  # As fichas são as notas do Obsidian (pasta notas/).
+  # Plano B para editar pelo celular; o jeito principal é o Obsidian.
+  - name: notas
+    label: Fichas (notas)
+    type: collection
+    path: notas
+    format: yaml-frontmatter
+    filename: "{fields.titulo}.md"
+    view:
+      fields: [titulo, canteiro, maturidade]
     fields:
-      - name: fichas
-        label: Fichas
-        type: object
-        list: true
-        fields:
-          - name: nome
-            label: Título
-            type: string
-            required: true
-          - name: secao
-            label: Canteiro
-            type: select
-            options:
-              values:
-                - { value: saude, label: "🫀 saúde" }
-                - { value: literatura, label: "📖 literatura" }
-                - { value: sociedade, label: "👁️ sociedade" }
-                - { value: natureza, label: "🌸 natureza" }
-                - { value: relacoes, label: "👄 relações" }
-                - { value: arte, label: "🖍️ arte" }
-                - { value: universo, label: "☄️ universo" }
-                - { value: misticismo, label: "🌑 misticismo" }
-          - name: fonte
-            label: Fonte (revista, site, autor)
-            type: string
-          - name: link
-            label: Link do original
-            type: string
-          - name: maturidade
-            label: Maturidade
-            type: select
-            default: semente
-            options:
-              values:
-                - { value: semente, label: "🌱 semente — guardei" }
-                - { value: broto, label: "🌿 broto — comecei a pensar" }
-                - { value: arvore, label: "🌳 árvore — virou ideia minha" }
-          - name: nota
-            label: Minha nota
-            type: text
+      - name: titulo
+        label: Título (deixe vazio para usar o nome do arquivo)
+        type: string
+      - name: canteiro
+        label: Canteiro
+        type: select
+        options:
+          values:
+            - { value: saude, label: "saúde" }
+            - { value: literatura, label: "literatura" }
+            - { value: sociedade, label: "sociedade" }
+            - { value: natureza, label: "natureza" }
+            - { value: relacoes, label: "relações" }
+            - { value: arte, label: "arte" }
+            - { value: universo, label: "universo" }
+            - { value: misticismo, label: "misticismo" }
+      - name: fonte
+        label: Fonte (revista, site, autor)
+        type: string
+      - name: link
+        label: Link do original
+        type: string
+      - name: maturidade
+        label: Maturidade
+        type: select
+        default: semente
+        options:
+          values:
+            - { value: semente, label: "🌱 semente — guardei" }
+            - { value: broto, label: "🌿 broto — comecei a pensar" }
+            - { value: arvore, label: "🌳 árvore — virou ideia minha" }
+      - name: numero
+        label: Número (ordem no acervo; opcional)
+        type: number
+      - name: body
+        label: Minha nota
+        type: rich-text
 
   - name: secoes
     label: Canteiros (seções)

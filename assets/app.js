@@ -41,7 +41,7 @@ function inclinacao(i, max = 1.4) {
 }
 
 const estado = { secao: null, maturidade: null, busca: "" };
-let site, secoes, fichas;
+let site, secoes, fichas, apelidos = {}, indicePorId = {};
 
 const $ = (id) => document.getElementById(id);
 
@@ -64,6 +64,55 @@ function corDe(secao) {
 
 function semAcento(t) {
   return String(t || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+}
+
+/* ---------- notas em Markdown (o que você escreve no Obsidian) ---------- */
+
+function emLinha(t) {
+  // t já vem escapado; aqui só transformamos as marcações simples
+  return t
+    .replace(/!\[\[([^\]|]+?)(?:\|[^\]]*)?\]\]/g, (_, arq) =>
+      `<img class="nota-img" src="media/${encodeURI(arq.trim())}" alt="" loading="lazy">`)
+    .replace(/\[\[([^\]|#]+)(?:#[^\]|]*)?(?:\|([^\]]*))?\]\]/g, (_, alvo, rotulo) => {
+      const chave = alvo.trim().replace(/&#39;/g, "'").replace(/&quot;/g, '"')
+        .replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&").toLowerCase();
+      const id = apelidos[chave];
+      const texto = (rotulo || alvo).trim();
+      return id ? `<button type="button" class="wikilink" data-id="${id}">${texto}</button>`
+                : `<span class="wikilink wikilink--vazio" title="ainda não existe">${texto}</span>`;
+    })
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/(^|[^*\w])\*([^*\n]+)\*/g, "$1<em>$2</em>")
+    .replace(/(^|[^_\w])_([^_\n]+)_/g, "$1<em>$2</em>")
+    .replace(/`([^`]+)`/g, "<code>$1</code>")
+    .replace(/==([^=]+)==/g, "<mark>$1</mark>");
+}
+
+function markdown(texto) {
+  return esc(texto).split(/\n{2,}/).map((bloco) => {
+    const linhas = bloco.split("\n");
+    if (linhas.every((l) => l.startsWith("&gt;"))) {
+      return `<blockquote>${emLinha(linhas.map((l) => l.replace(/^&gt;\s?/, "")).join("<br>"))}</blockquote>`;
+    }
+    if (linhas.every((l) => /^\s*[-*]\s/.test(l))) {
+      return `<ul>${linhas.map((l) => `<li>${emLinha(l.replace(/^\s*[-*]\s/, ""))}</li>`).join("")}</ul>`;
+    }
+    const titulo = bloco.match(/^#{1,6}\s+(.*)$/);
+    if (titulo && linhas.length === 1) return `<h4>${emLinha(titulo[1])}</h4>`;
+    if (/^(-{3,}|\*{3,})$/.test(bloco.trim())) return "<hr>";
+    return `<p>${emLinha(linhas.join("<br>"))}</p>`;
+  }).join("");
+}
+
+function textoPuro(md) {
+  return String(md || "")
+    .replace(/!\[\[[^\]]*\]\]/g, "")
+    .replace(/\[\[([^\]|#]+)(?:#[^\]|]*)?(?:\|([^\]]*))?\]\]/g, (_, a, r) => r || a)
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/[*_`=>#]+/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 async function carregar(caminho) {
@@ -191,7 +240,8 @@ function desenhar() {
           <span class="ficha__num"><span class="mao">nº ${idx + 1}</span><span>${esc(s?.nome || "")}</span></span>
           <span class="ficha__titulo">${esc(f.nome)}</span>
           <span class="ficha__fonte">${esc(f.fonte)}</span>
-          ${f.nota ? `<span class="ficha__nota">${esc(f.nota.length > 140 ? f.nota.slice(0, 140) + "…" : f.nota)}</span>` : ""}
+          ${f.nota ? (() => { const t = textoPuro(f.nota); return `<span class="ficha__nota">${esc(t.length > 140 ? t.slice(0, 140) + "…" : t)}</span>`; })() : ""}
+          ${f.liga?.length || f.citada?.length ? `<span class="ficha__conexoes" aria-label="conexões">↔ ${(f.liga?.length || 0) + (f.citada?.length || 0)}</span>` : ""}
           <span class="maturidade">${m.icone} ${m.nome}</span>
         </button>
       </li>`;
@@ -217,13 +267,25 @@ function abrirFicha(i) {
   $("d-titulo").textContent = f.nome;
   $("d-fonte").textContent = f.fonte;
   const nota = $("d-nota");
-  nota.textContent = f.nota || "ainda sem nota — esta semente está só guardada.";
+  if (f.nota) nota.innerHTML = markdown(f.nota);
+  else nota.textContent = "ainda sem nota — esta semente está só guardada.";
   nota.classList.toggle("sem-nota", !f.nota);
+
+  const lista = (ids) => ids.map((id) => {
+    const alvo = fichas[indicePorId[id]];
+    return alvo ? `<button type="button" class="wikilink" data-id="${esc(id)}">${esc(alvo.nome)}</button>` : "";
+  }).join("");
+  const conexoes = [];
+  if (f.liga?.length) conexoes.push(`<p><span class="mao">conversa com</span> ${lista(f.liga)}</p>`);
+  if (f.citada?.length) conexoes.push(`<p><span class="mao">citada em</span> ${lista(f.citada)}</p>`);
+  $("d-conexoes").innerHTML = conexoes.join("");
+  $("d-conexoes").hidden = conexoes.length === 0;
   $("d-mat").textContent = `${m.icone} ${m.nome} — ${m.desc}`;
   const link = $("d-link");
   link.hidden = !f.link;
   if (f.link) link.href = f.link;
-  d.showModal();
+  if (!d.open) d.showModal();
+  d.scrollTop = 0;
 }
 
 /* ---------- rodapé ---------- */
@@ -255,11 +317,15 @@ function lerEndereco() {
 
 async function iniciar() {
   try {
-    [site, { secoes }, { fichas }] = await Promise.all([
+    let indice;
+    [site, { secoes }, indice] = await Promise.all([
       carregar("content/site.json"),
       carregar("content/secoes.json"),
       carregar("content/fichas.json"),
     ]);
+    fichas = indice.fichas;
+    apelidos = indice.apelidos || {};
+    fichas.forEach((f, i) => { if (f.id) indicePorId[f.id] = i; });
   } catch (erro) {
     document.querySelector("main").innerHTML =
       `<p class="vazio">o jardim não abriu: ${esc(erro.message)}.<br>
@@ -277,7 +343,9 @@ async function iniciar() {
     if (b) abrirFicha(Number(b.dataset.i));
   });
   $("dialogo").addEventListener("click", (e) => {
-    if (e.target === e.currentTarget) e.currentTarget.close();
+    if (e.target === e.currentTarget) return e.currentTarget.close();
+    const link = e.target.closest(".wikilink[data-id]");
+    if (link && link.dataset.id in indicePorId) abrirFicha(indicePorId[link.dataset.id]);
   });
 
   window.addEventListener("hashchange", lerEndereco);

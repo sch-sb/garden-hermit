@@ -378,7 +378,7 @@ main { max-width: var(--largura); margin: 0 auto; padding: 0 32px; }
 .etiqueta::before {
   content: "";
   position: absolute;
-  top: -13px;
+  top: 0;
   left: 50%;
   width: 90px;
   height: 26px;
@@ -402,17 +402,51 @@ main { max-width: var(--largura); margin: 0 auto; padding: 0 32px; }
   margin: 0 0 8px;
 }
 .etiqueta__fonte { font-style: italic; color: var(--tinta-suave); margin: 0 0 20px; }
+.etiqueta {
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+}
 .etiqueta__nota {
-  font-family: var(--f-mao);
-  font-size: 24px;
-  line-height: 1.35;
-  color: var(--terracota);
   border-top: 1px dashed var(--linha);
   border-bottom: 1px dashed var(--linha);
-  padding: 16px 0;
-  white-space: pre-line;
+  padding: 14px 0;
 }
-.etiqueta__nota.sem-nota { color: var(--tinta-suave); }
+.etiqueta__nota > :first-child { margin-top: 0; }
+.etiqueta__nota > :last-child { margin-bottom: 0; }
+.etiqueta__nota p { margin: 0 0 12px; }
+.etiqueta__nota h4 { font-family: var(--f-titulo); font-weight: 400; font-size: 24px; margin: 18px 0 6px; }
+.etiqueta__nota blockquote {
+  margin: 0 0 12px;
+  padding-left: 14px;
+  border-left: 3px solid var(--cor);
+  font-style: italic;
+}
+.etiqueta__nota ul { margin: 0 0 12px; padding-left: 20px; }
+.etiqueta__nota code { background: var(--papel); padding: 0 4px; }
+.etiqueta__nota mark { background: linear-gradient(transparent 50%, var(--ocre) 50%); }
+.etiqueta__nota hr { border: 0; border-top: 1px dashed var(--linha); margin: 16px 0; }
+.etiqueta__nota .nota-img { max-width: 100%; height: auto; display: block; margin: 8px 0 12px; }
+.etiqueta__nota.sem-nota {
+  font-family: var(--f-mao);
+  font-size: 22px;
+  color: var(--tinta-suave);
+}
+
+.wikilink {
+  font: inherit;
+  color: inherit;
+  background: linear-gradient(transparent 60%, var(--cor, var(--ocre)) 60%, var(--cor, var(--ocre)) 92%, transparent 92%);
+  border: 0;
+  padding: 0 2px;
+  cursor: pointer;
+}
+.wikilink:hover { font-style: italic; }
+.wikilink--vazio { background: none; border-bottom: 1px dotted var(--tinta-suave); cursor: help; }
+
+.etiqueta__conexoes { padding-top: 12px; font-size: 14px; }
+.etiqueta__conexoes p { margin: 0 0 6px; display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; }
+.etiqueta__conexoes .mao { font-family: var(--f-mao); font-size: 20px; color: var(--terracota); }
+.ficha__conexoes { font-size: 12px; color: var(--tinta-suave); }
 .etiqueta__pe { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 18px; flex-wrap: wrap; }
 .ler {
   font-size: 14px;
